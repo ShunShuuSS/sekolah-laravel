@@ -44,7 +44,12 @@ class GuruController extends Controller
     public function show($id)
     {
         $target = Guru::where('id_guru', $id)->first();
-
+        
+        if(!$target){
+            return [
+                'message' => 'no data found'
+            ];
+        }
         return $target;
     }
 

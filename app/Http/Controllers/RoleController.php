@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Role;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\DB;
 
 class RoleController extends Controller
 {
@@ -33,12 +34,31 @@ class RoleController extends Controller
             'description' => 'required'
         ]);
 
-        $id_role = $this->
+        if($validator->fails()){
+            return [
+                'error' => $validator->errors()
+            ];
+        }
+
+        $id_role = $this->AutoIncrementId();
         $name = $request->name;
         $description = $request->description;
 
-        DB::insert('insert into role (id_role, name, description) values (?, ?, ?)', [$id_role, ]);
+        $response = DB::insert(
+            'insert into role (id_role, name, description)
+            values (?, ?, ?)',
+            [$id_role, $name, $description]
+        );
 
+        if($response){
+            return [
+                'message' => 'Store data role success'
+            ];
+        }else{
+            return[
+                'message' => 'Store data role error'
+            ];
+        }
     }
 
     /**
@@ -51,6 +71,11 @@ class RoleController extends Controller
     {
         $target = Role::where('id_role', $id)->first();
 
+        if(!$target){
+            return [
+                'message' => 'no data found'
+            ];
+        }
         return $target;
     }
 
@@ -61,9 +86,36 @@ class RoleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $id_role)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'name' => 'required',
+            'description' => 'required'
+        ]);
+
+        if($validator->fails()){
+            return [
+                'error' => $validator->errors()
+            ];
+        }
+
+        $name = $request->name;
+        $description = $request->description;
+
+        $response = DB::update(
+            'update role set name = ?, description = ? where id_role = ?',
+            [$name, $description, $id_role]
+        );
+
+        if($response){
+            return [
+                'message' => 'Update data success'
+            ];
+        }else{
+            return [
+                'message' => 'Update data error'
+            ];
+        }
     }
 
     /**
@@ -74,7 +126,19 @@ class RoleController extends Controller
      */
     public function destroy($id)
     {
-        //
+        // $response = DB::table('role')
+        //     ->where('id_role', $id)
+        //     ->delete();
+
+        // if($response){
+        //     return [
+        //         'message' => 'Delete data role success'
+        //     ];
+        // }else{
+        //     return [
+        //         'message' => 'Delete data role error'
+        //     ];
+        // }
     }
 
     private function AutoIncrementId(){

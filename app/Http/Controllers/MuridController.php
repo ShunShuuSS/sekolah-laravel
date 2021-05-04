@@ -45,6 +45,12 @@ class MuridController extends Controller
     public function show($id)
     {
         $target = Murid::where('id_murid', $id)->first();
+
+        if(!$target){
+            return [
+                'message' => 'no data found'
+            ];
+        }
         return $target;
     }
 

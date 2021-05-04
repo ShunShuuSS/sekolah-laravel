@@ -69,7 +69,13 @@ class MataPelajaranController extends Controller
      */
     public function show($id)
     {
-        
+        $target = MataPelajaran::where('id_mata_pelajaran', $id)->first();
+        if(!$target){
+            return [
+                'message' => 'no data found'
+            ];
+        }
+        return $target;
     }
 
     /**
@@ -120,6 +126,14 @@ class MataPelajaranController extends Controller
      */
     public function destroy($id)
     {
+        $target = MataPelajaran::where('id_mata_pelajaran', $id)->first();
+
+        if(!$target){
+            return [
+                'message' => 'no target found'
+            ];
+        }
+        
         $response = DB::table('mata_pelajaran')
             ->where('id_mata_pelajaran', $id)
             ->delete();

@@ -34,9 +34,7 @@ class UserController extends Controller
             'password' => 'required',
             'name' => 'required',
             'birthdate' => 'required',
-            'id_role' => 'required',
-            'link_foto' => 'required',
-            'izin_edit' => 'required'
+            'id_role' => 'required'
         ]);
 
         if($validator->fails()){
@@ -55,8 +53,10 @@ class UserController extends Controller
         $link_foto = $request->link_foto;
         $izin_edit = $request->izin_edit;
 
-        $response = DB::insert('insert into user (id_user, email, password, name, birthdate, id_role, link_foto, izin_edit)
-                values (?, ?, ?, ?, ?, ?, ?, ?)', [$id_user, $email, $password, $name, $birthdate, $id_role, $link_foto, $izin_edit]);
+        $response = DB::insert('insert into user (id_user, email, password, name, birthdate, id_role)
+                values (?, ?, ?, ?, ?, ?)',
+                [$id_user, $email, $password, $name, $birthdate, $id_role]
+        );
 
         if($response == 0){
             return [
@@ -99,6 +99,11 @@ class UserController extends Controller
     {
         $target = User::where('id_user', $id)->first();
 
+        if(!$target){
+            return [
+                'message' => 'no data found'
+            ];
+        }
         return $target;
     }
 
@@ -116,10 +121,15 @@ class UserController extends Controller
             'password' => 'required',
             'name' => 'required',
             'birthdate' => 'required',
-            'id_role' => 'required',
             'link_foto' => 'required',
             'izin_edit' => 'required'
         ]);
+
+        if($validator->fails()){
+            return [
+                'error' => $validator->errors()
+            ];
+        }
 
         $id_role = $this->getUserIdRole($id_user);
         $email = $request->email;

@@ -30,7 +30,6 @@ use Illuminate\Support\Facades\Route;
 // MURID
 Route::get('murid/index', [MuridController::class, 'index']);
 Route::get('murid/{id}', [MuridController::class, 'show']);
-Route::delete('murid/delete/{id}', [MuridController::class, 'destroy']);
 
 // USER
 Route::get('user/index', [UserController::class, 'index']);
@@ -40,7 +39,11 @@ Route::post('user/update/{id}', [UserController::class, 'update']);
 Route::delete('user/delete/{id}', [UserController::class, 'destroy']);
 
 // ALOKASI KELAS
-Route::get('alokasikelas', [AlokasiKelasController::class, 'index']);
+Route::get('alokasikelas/index', [AlokasiKelasController::class, 'index']);
+Route::get('alokasikelas/show/{id}', [AlokasiKelasController::class, 'show']);
+Route::post('alokasikelas/store', [AlokasiKelasController::class, 'store']);
+Route::post('alokasikelas/update/{id}', [AlokasiKelasController::class, 'update']);
+Route::delete('alokasikelas/delete/{id}', [AlokasiKelasController::class, 'destroy']);
 
 // GURU
 
@@ -49,7 +52,7 @@ Route::get('guru/show/{id}', [GuruController::class, 'show']);
 
 // KELAS
 
-Route::get('kelas', [KelasController::class, 'index']);
+Route::get('kelas/index', [KelasController::class, 'index']);
 
 // MATA PELAJARAN
 
@@ -61,8 +64,15 @@ Route::delete('matapelajaran/delete/{id}', [MataPelajaranController::class, 'des
 
 // NOTIFICATION
 
-Route::get('notification', [NotificationController::class, 'index']);
+Route::get('notification/index', [NotificationController::class, 'index']);
+Route::get('notification/show/{id}', [NotificationController::class, 'show']);
+Route::post('notification/store', [NotificationController::class, 'store']);
+Route::post('notification/update/{id}', [NotificationController::class, 'update']);
 
 // ROLE
 
 Route::get('role/index', [RoleController::class, 'index']);
+Route::get('role/show/{id}', [RoleController::class, 'show']);
+Route::post('role/store', [RoleController::class, 'store']);
+Route::post('role/update/{id}', [RoleController::class, 'update']);
+Route::delete('role/delete/{id}', [RoleController::class, 'destroy']);
