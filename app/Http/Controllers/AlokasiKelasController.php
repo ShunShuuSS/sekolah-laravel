@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\AlokasiKelas;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class AlokasiKelasController extends Controller
 {
@@ -27,7 +28,13 @@ class AlokasiKelasController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'id_alokasi' => 'required',
+            'id_kelas' => 'required',
+            'id_murid' => 'required',
+            'id_guru' => 'required',
+            'id_mata_pelajaran' => 'required'
+        ]);
     }
 
     /**

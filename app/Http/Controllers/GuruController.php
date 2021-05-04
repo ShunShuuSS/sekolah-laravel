@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Guru;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class GuruController extends Controller
 {
@@ -25,9 +26,13 @@ class GuruController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store($name, $id_user)
     {
-        //
+        $id = $this->AutoIncrementId();
+
+        $response = DB::insert('insert into guru (id_guru, name, id_user) values (?, ?, ?)', [$id, $name, $id_user]);
+
+        return $response;
     }
 
     /**
@@ -38,7 +43,9 @@ class GuruController extends Controller
      */
     public function show($id)
     {
-        //
+        $target = Guru::where('id_guru', $id)->first();
+
+        return $target;
     }
 
     /**
@@ -48,9 +55,11 @@ class GuruController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update($name, $id_user)
     {
-        //
+        $response = DB::table('guru')->where('id_user', $id_user)->delete();
+
+        return $response;
     }
 
     /**
@@ -59,8 +68,45 @@ class GuruController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($id_user)
     {
-        //
+        $response = DB::delete('delete guru where id_user = ?', [$id_user]);
+
+        return $response;
+    }
+
+    private function AutoIncrementId(){
+        $getLastData = Guru::orderBy('id_guru', 'desc')->first();
+
+        $getId = $getLastData['id_guru'];
+
+        $getIdInt = substr($getId, 1);
+
+        $zeroCount = 0;
+
+        while(true){
+            if(substr($getIdInt, 0, 1) != '0'){
+                break;
+            }
+            $getIdInt = substr($getIdInt, 1);
+            $zeroCount++;
+        }
+
+        $checkLengthIdInt = strlen($getIdInt);
+        $getIdInt = $getIdInt + 1;
+        if(strlen($getIdInt) != $checkLengthIdInt){
+            $zeroCount--;
+        }
+
+        $createId = '';
+
+        while($zeroCount != 0){
+            $createId = $createId . '0';
+            $zeroCount--;
+        }
+
+        $createNewId = 'G' . $createId . (string)$getIdInt;
+
+        return $createNewId;
     }
 }

@@ -28,19 +28,24 @@ use Illuminate\Support\Facades\Route;
 // });
 
 // MURID
-Route::get('murid', [MuridController::class, 'index']);
+Route::get('murid/index', [MuridController::class, 'index']);
 Route::get('murid/{id}', [MuridController::class, 'show']);
+Route::delete('murid/delete/{id}', [MuridController::class, 'destroy']);
 
 // USER
-Route::get('user', [UserController::class, 'index']);
-Route::get('user/{id}', [UserController::class, 'show']);
+Route::get('user/index', [UserController::class, 'index']);
+Route::get('user/show/{id}', [UserController::class, 'show']);
+Route::post('user/store', [UserController::class, 'store']);
+Route::post('user/update/{id}', [UserController::class, 'update']);
+Route::delete('user/delete/{id}', [UserController::class, 'destroy']);
 
 // ALOKASI KELAS
 Route::get('alokasikelas', [AlokasiKelasController::class, 'index']);
 
 // GURU
 
-Route::get('guru', [GuruController::class, 'index']);
+Route::get('guru/index', [GuruController::class, 'index']);
+Route::get('guru/show/{id}', [GuruController::class, 'show']);
 
 // KELAS
 
@@ -48,7 +53,11 @@ Route::get('kelas', [KelasController::class, 'index']);
 
 // MATA PELAJARAN
 
-Route::get('matapelajaran', [MataPelajaranController::class, 'index']);
+Route::get('matapelajaran/index', [MataPelajaranController::class, 'index']);
+Route::get('matapelajaran/show/{id}', [MataPelajaranController::class, 'show']);
+Route::post('matapelajaran/store', [MataPelajaranController::class, 'store']);
+Route::post('matapelajaran/update/{id}', [MataPelajaranController::class, 'update']);
+Route::delete('matapelajaran/delete/{id}', [MataPelajaranController::class, 'destroy']);
 
 // NOTIFICATION
 
@@ -56,4 +65,4 @@ Route::get('notification', [NotificationController::class, 'index']);
 
 // ROLE
 
-Route::get('role', [RoleController::class, 'index']);
+Route::get('role/index', [RoleController::class, 'index']);
