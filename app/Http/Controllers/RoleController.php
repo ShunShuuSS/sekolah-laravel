@@ -33,11 +33,11 @@ class RoleController extends Controller
             'description' => 'required'
         ]);
 
-        $id_role = 
+        $id_role = $this->
         $name = $request->name;
         $description = $request->description;
 
-        DB::insert('insert into role (id_role, name, description) values (?, ?, ?)', [1, 'Dayle'])
+        DB::insert('insert into role (id_role, name, description) values (?, ?, ?)', [$id_role, ]);
 
     }
 
